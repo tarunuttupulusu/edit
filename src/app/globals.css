@@ -17,6 +17,8 @@
   --font-inter: var(--font-inter);
   --font-space-grotesk: var(--font-space-grotesk);
   --font-hero-display: var(--font-space-grotesk);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -79,7 +81,10 @@ iframe {
 
 @layer utilities {
   .animate-marquee {
-    animation: marquee 60s linear infinite;
+    animation: marquee var(--duration, 40s) infinite linear;
+  }
+  .animate-marquee-vertical {
+    animation: marquee-vertical var(--duration, 40s) linear infinite;
   }
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
@@ -130,11 +135,20 @@ iframe {
 }
 
 @keyframes marquee {
-  0% {
-    transform: translateX(0%);
+  from {
+    transform: translateX(0);
   }
-  100% {
-    transform: translateX(-50%);
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
   }
 }
 
@@ -631,3 +645,96 @@ iframe {
   animation: ega-check-pop 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ------- Osmo Parallax Styles ------- */
+.parallax {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax__header {
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+  display: flex;
+  position: relative;
+}
+
+.parallax__visuals {
+  object-fit: cover;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax__layers {
+  object-fit: cover;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax__layer-img {
+  pointer-events: none;
+  object-fit: cover;
+  width: 100%;
+  max-width: none;
+  height: 118%;
+  position: absolute;
+  top: -18%;
+  left: 0;
+}
+
+.parallax__layer-img.is-third {
+  top: -20%;
+}
+
+.parallax__layer-title {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.parallax__fade {
+  z-index: 30;
+  object-fit: cover;
+  width: 100%;
+  max-width: none;
+  height: 25%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(10, 10, 10, 1) 0%, rgba(10, 10, 10, 0.75) 40%, transparent 100%);
+}
+
+.parallax__black-line-overflow {
+  z-index: 20;
+  background-color: var(--color-gaude-black, #0a0a0a);
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+}
+
+/* Editco Media Custom Logo Cursor */
+@media (pointer: fine) {
+  html.ecm-custom-cursor,
+  html.ecm-custom-cursor *,
+  html.ecm-custom-cursor a,
+  html.ecm-custom-cursor button,
+  html.ecm-custom-cursor [role="button"] {
+    cursor: none !important;
+  }
+}

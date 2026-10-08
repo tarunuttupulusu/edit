@@ -6,6 +6,7 @@ import { LandingLoadOverlay } from "@/components/motion/LandingLoadOverlay";
 import { MagneticNav } from "@/components/motion/MagneticNav";
 import { FloatingBottomNav } from "@/components/motion/FloatingBottomNav";
 import { PublicSiteScripts } from "@/components/motion/PublicSiteScripts";
+import { ClientCursor } from "@/components/ClientCursor";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -94,6 +95,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <LandingLoadOverlay />
+        <ClientCursor />
         <MagneticNav />
         <FloatingBottomNav />
         {children}

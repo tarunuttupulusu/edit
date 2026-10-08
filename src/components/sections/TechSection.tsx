@@ -1,8 +1,11 @@
 "use client";
+
 import { tech } from "@/content/landing";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { sectionFlowAfter } from "@/lib/stickyStack";
-import { motion } from "framer-motion";
+import { Marquee } from "@/components/ui/marquee";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 const TECH_STACK = [
   { name: "TYPESCRIPT", color: "#3178c6" },
@@ -49,6 +52,29 @@ const TECH_STACK = [
   { name: "WEBPACK", color: "#8dd6f9", textColor: "black" },
 ];
 
+const ROW_1 = TECH_STACK.slice(0, 11);
+const ROW_2 = TECH_STACK.slice(11, 21);
+const ROW_3 = TECH_STACK.slice(21, 31);
+const ROW_4 = TECH_STACK.slice(31);
+
+interface TechItemProps {
+  item: (typeof TECH_STACK)[number];
+}
+
+function TechBadge({ item }: TechItemProps) {
+  return (
+    <Badge
+      style={{ backgroundColor: item.color }}
+      className={cn(
+        "cursor-default select-none rounded-[4px] border-0 px-3 py-1.5 font-archivo text-[10px] font-black uppercase tracking-wider shadow-sm transition-transform duration-200 hover:scale-110 sm:px-3.5 sm:py-2 sm:text-[11px] md:px-5 md:py-2.5 md:text-xs",
+        item.textColor === "black" ? "text-black" : "text-white"
+      )}
+    >
+      {item.name}
+    </Badge>
+  );
+}
+
 export function TechSection() {
   return (
     <section
@@ -60,24 +86,38 @@ export function TechSection() {
           <SectionHeading title={tech.heading} description={tech.description} />
         </div>
 
-        <div className="flex flex-wrap justify-center gap-1 md:justify-start md:gap-1.5">
-          {TECH_STACK.map((item, i) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ 
-                delay: i * 0.01,
-                duration: 0.2,
-                ease: "easeOut"
-              }}
-              style={{ backgroundColor: item.color }}
-              className={`rounded-[4px] px-2.5 py-1.5 font-archivo text-[9px] font-black uppercase tracking-wider shadow-sm transition-transform hover:z-10 hover:scale-110 cursor-default sm:px-3 sm:text-[10px] md:px-5 md:py-2.5 md:text-xs ${item.textColor === 'black' ? 'text-black' : 'text-white'}`}
-            >
-              {item.name}
-            </motion.div>
-          ))}
+        {/* Marquee Container with edge fading gradients */}
+        <div className="relative -mx-4 flex flex-col gap-2.5 overflow-hidden sm:-mx-8 sm:gap-3 md:mx-0 md:gap-3.5">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white to-transparent sm:w-20 md:w-28" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white to-transparent sm:w-20 md:w-28" />
+
+          {/* Row 1: Forward */}
+          <Marquee pauseOnHover repeat={4} speed="normal" className="[--gap:8px] sm:[--gap:10px] md:[--gap:12px]">
+            {ROW_1.map((item) => (
+              <TechBadge key={item.name} item={item} />
+            ))}
+          </Marquee>
+
+          {/* Row 2: Reverse */}
+          <Marquee reverse pauseOnHover repeat={4} speed="normal" className="[--gap:8px] sm:[--gap:10px] md:[--gap:12px]">
+            {ROW_2.map((item) => (
+              <TechBadge key={item.name} item={item} />
+            ))}
+          </Marquee>
+
+          {/* Row 3: Forward */}
+          <Marquee pauseOnHover repeat={4} speed="normal" className="[--gap:8px] sm:[--gap:10px] md:[--gap:12px]">
+            {ROW_3.map((item) => (
+              <TechBadge key={item.name} item={item} />
+            ))}
+          </Marquee>
+
+          {/* Row 4: Reverse */}
+          <Marquee reverse pauseOnHover repeat={4} speed="normal" className="[--gap:8px] sm:[--gap:10px] md:[--gap:12px]">
+            {ROW_4.map((item) => (
+              <TechBadge key={item.name} item={item} />
+            ))}
+          </Marquee>
         </div>
       </div>
     </section>

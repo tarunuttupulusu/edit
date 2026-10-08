@@ -4,6 +4,7 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { PixelImage } from "@/components/ui/PixelImage";
 
 export type HoverExpandImage = {
   src: string;
@@ -66,20 +67,26 @@ export function HoverExpand({
               onClick={() => setActiveImage(index)}
               onHoverStart={() => setActiveImage(index)}
             >
-              <Image
+              <PixelImage
                 src={image.src}
-                alt={image.alt}
-                fill
-                sizes={isActive ? "(max-width: 768px) 90vw, 640px" : "72px"}
-                className={cn(
-                  "transition-[object-fit] duration-300",
-                  isActive
-                    ? "object-contain object-center p-2"
-                    : "object-cover object-center"
-                )}
-                priority={index < 2}
-                unoptimized={image.src.startsWith("/api/")}
-              />
+                active={isActive}
+                className="absolute inset-0 h-full w-full"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes={isActive ? "(max-width: 768px) 90vw, 640px" : "72px"}
+                  className={cn(
+                    "transition-[object-fit] duration-300",
+                    isActive
+                      ? "object-contain object-center p-2"
+                      : "object-cover object-center"
+                  )}
+                  priority={index < 2}
+                  unoptimized={image.src.startsWith("/api/")}
+                />
+              </PixelImage>
               <AnimatePresence>
                 {isActive ? (
                   <motion.div
